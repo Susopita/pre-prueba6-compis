@@ -8,6 +8,7 @@
 class BinaryExp;
 class NumberExp;
 class SqrtExp;
+class NotExp;
 
 class Visitor {
 public:
@@ -16,12 +17,15 @@ public:
     virtual int visit(IdExp* exp) = 0;
     virtual int visit(ArrayAccessExp* exp) = 0;
     virtual int visit(SqrtExp* exp) = 0;
+    virtual int visit(NotExp* exp) = 0;
     virtual void visit(AsignStmt* stm) = 0;
     virtual void visit(ArrayAssignStmt* stm) = 0;
     virtual void visit(PrintStmt* stm) = 0;
     virtual void visit(IfStmt* stm) = 0;
     virtual void visit(WhileStmt* stm) = 0; 
     virtual void visit(ForStmt* stm) = 0; 
+    virtual void visit(BreakStmt* stm) = 0;
+    virtual void visit(IncrementStmt* stm) = 0;
     virtual void visit(VarDec* stm) = 0; 
     virtual void visit(Body* stm) = 0; 
     virtual void visit(ReturnStm* stm) = 0;
@@ -36,6 +40,7 @@ public:
     int visit(BinaryExp* exp) override;
     int visit(NumberExp* exp) override;
     int visit(SqrtExp* exp) override;
+    int visit(NotExp* exp) override;
     void visit(AsignStmt* stm) override;
     void visit(PrintStmt* stm) override;
     void visit(Programa* program) override;
@@ -44,6 +49,8 @@ public:
     void visit(IfStmt* stm) override; 
     void visit(WhileStmt* stm) override;
     void visit(ForStmt* stm) override;
+    void visit(BreakStmt* stm) override;
+    void visit(IncrementStmt* stm) override;
     void visit(VarDec* stm) override; 
     void visit(ReturnStm* stm) ;
     void visit(ArrayAssignStmt* stm) override;
@@ -57,10 +64,12 @@ class EVALVisitor : public Visitor {
 public:
     Environment<int> memoria;
     int retornito;
+    bool breakSignal = false;
     unordered_map<string,Fundec*> fmemoria;
     int visit(BinaryExp* exp) override;
     int visit(NumberExp* exp) override;
     int visit(SqrtExp* exp) override;
+    int visit(NotExp* exp) override;
     void visit(AsignStmt* stm) override;
     void visit(PrintStmt* stm) override;
     int visit(IdExp* exp) override;
@@ -68,6 +77,8 @@ public:
     void visit(IfStmt* stm) override; 
     void visit(WhileStmt* stm) override; 
     void visit(ForStmt* stm) override; 
+    void visit(BreakStmt* stm) override;
+    void visit(IncrementStmt* stm) override;
     void visit(Programa* program) override;
     void visit(VarDec* stm) override;  
     void visit(ReturnStm* stm) ;
