@@ -41,8 +41,6 @@ void ArrayAssignStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
 
-
-
 void IfStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
@@ -54,8 +52,6 @@ void WhileStmt::accept(Visitor* visitor) {
 void ForStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
-
-
 
 void VarDec::accept(Visitor* visitor) {
     visitor->visit(this);

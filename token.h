@@ -20,9 +20,9 @@ public:
         GET,     // <=
         GT,      // <
         EQUAL,   // ==
-        NUM,     // number
         LBRACKET,// [
         RBRACKET,// ]
+        INCREMENT, // ++
         PRINT,
         COMA,    // ,
         FUN,
@@ -35,11 +35,15 @@ public:
         IF,
         VAR,     // Var
         ELSE,
+        AND,
+        OR, 
+        NOT,
         WHILE,
         DO,
         ENDWHILE,
         FOR,
         TO,
+        BREAK,
         ENDFOR,
         THEN,
         ENDIF,
