@@ -40,7 +40,7 @@ SqrtExp::SqrtExp(Exp* v) : value(v) {}
 
 SqrtExp::~SqrtExp() {}
 
-NotExp::NotExp(Exp* e) : exp(e) {}
+NotExp::NotExp(Exp* expComp, bool isNot) : exp(e), isNot(isNot) {}
 ~NotExp::NotExp() {}
 
 //

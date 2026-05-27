@@ -21,6 +21,9 @@ public:
     VarDec* parseVarDec();
     Stmt* parsestmt();
     Exp* parseCEXP();                   // Regla gramatical P
+    Exp* parseBFactor();
+    Exp* parseCompExp();
+    Exp* parsePlusMinusExp();
     Exp* parseE();                   // Regla gramatical E
     Exp* parseT();                   // Regla gramatical T
     Exp* parseF();                   // Regla gramatical F

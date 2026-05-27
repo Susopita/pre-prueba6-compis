@@ -80,9 +80,18 @@ public:
 class NotExp : public Exp {
 public:
     Exp* expComp;
+    bool isNot;
     bool accept(Visitor* visitor);
     NotExp(Exp* expComp);
     ~NotExp();
+};
+
+class BoolExp : public Exp {
+public:
+    string boolValue;
+    int accept(Visitor* visitor);
+    BoolExp();
+    ~BoolExp();
 };
 
 class Stmt{

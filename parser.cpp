@@ -159,10 +159,7 @@ Stmt *Parser::parsestmt() {
         e = parseCEXP();
         WhileStmt* roberto = new WhileStmt(e);
         match(Token::DO);
-        roberto->cuerpodelwhile.push_back(parsestmt());
-        while(match(Token::SEMICOL)){
-            roberto->cuerpodelwhile.push_back(parsestmt());
-        }
+        roberto->cuerpodelwhile.push_back(parseBody());
         match(Token::ENDWHILE);
         return roberto;
     }
@@ -185,6 +182,9 @@ Stmt *Parser::parsestmt() {
     }
 
     else if (match(Token::ID)) {
+        if (match(Token::INCREMENT)){
+            return new IncrementStmt(previous->text);
+        }
         string texto = previous->text;
         if (match(Token::LBRACKET)) {
             Exp* index = parseCEXP();
@@ -209,9 +209,53 @@ Stmt *Parser::parsestmt() {
         match(Token::ENDFOR);
         return new ForStmt(variable, inicio, fin, cuerpo);
     }
+    else if (match(Token::BREAK)){
+        return new BreakStmt();
+    }
 }
 
-Exp* Parser::parseCEXP() {
+Exp* Parser::parseCEXP(){
+    Exp* l = parseBFactor();
+    while (match(Token::AND) || match(Token::OR)) {
+        BinaryOp op;
+        if (previous->type == Token::AND){
+            op = AND_OP;
+        }
+        else {
+            op = OR_OP;
+        }
+        Exp* r = parseBFactor();
+        l = new BinaryExp(l, r, op);
+    }
+    return l;
+}
+
+Exp* Parser::parseBFactor(){
+    bool isNot;
+    if (match(Token::NOT)) {
+        isNot = true;
+    }
+    else {
+        isNot = false;
+    }
+    return new NotExp(parseCompExp(), isNot);
+}
+
+Exp* Parser::parseCompExp(){
+    Exp* l = parsePlusMinusExp();
+    if (match(Token::GT)) {
+        return new BinaryExp(l, parsePlusMinusExp(), GT_OP)
+    }
+    else if (match(Token::GTE)) {
+        return new BinaryExp(l, parsePlusMinusExp(), GTE_OP)
+    }
+    else if (match(Token::EQUAL)) {    
+       return new BinaryExp(l, parsePlusMinusExp(), EQUAL_OP)
+    }
+    return l;
+}
+
+Exp* Parser::parsePlusMinusExp() {
     Exp* l = parseE();
     while (match(Token::PLUS) || match(Token::MINUS)) {
         BinaryOp op;
@@ -281,6 +325,9 @@ Exp* Parser::parseF() {
         else{
             return new IdExp(texto);
         }
+    }
+    else if (match(Token::TRUE) || match(Token::FALSE)) {
+        return new BoolExp(current->text);
     }
     else if (match(Token::LPAREN))
     {
