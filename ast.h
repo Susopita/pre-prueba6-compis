@@ -86,8 +86,8 @@ class NotExp : public Exp {
 public:
     Exp* expComp;
     bool isNot;
-    bool accept(Visitor* visitor);
-    NotExp(Exp* expComp);
+    int accept(Visitor* visitor);
+    NotExp(Exp* expComp, bool isNot);
     ~NotExp();
 };
 
@@ -95,7 +95,7 @@ class BoolExp : public Exp {
 public:
     string boolValue;
     int accept(Visitor* visitor);
-    BoolExp();
+    BoolExp(string boolValue);
     ~BoolExp();
 };
 
@@ -131,9 +131,9 @@ public:
     string iterador;
     Exp* inicio;
     Exp* fin;
-    list<Stmt*> cuerpodelfor;
+    Body* cuerpodelfor;
     void accept(Visitor* visitor) override;
-    ForStmt(string id, Exp* i, Exp* f);
+    ForStmt(string id, Exp* i, Exp* f, Body* b);
     ~ForStmt();
 };
 
@@ -224,18 +224,6 @@ public:
     void accept(Visitor* visitor);
     Fundec();
     ~Fundec();
-};
-
-class ForStamt : public Stmt {
-public:
-    string variable;
-    Exp* inicio;
-    Exp* fin;
-    Body* cuerpo;
-
-    void accept(Visitor* visitor);
-    ForStmt();
-    ~ForStmt();
 };
 
 class Programa{

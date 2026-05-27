@@ -15,6 +15,9 @@ string Exp::binopToChar(BinaryOp op) {
         case POW_OP:   return "**";
         case AND_OP:   return "and";
         case OR_OP:    return "or";
+        case GTE_OP:   return "<=";
+        case GT_OP:    return "<";
+        case EQUAL_OP: return "==";
         default:       return "?";
     }
 }
@@ -42,8 +45,11 @@ SqrtExp::SqrtExp(Exp* v) : value(v) {}
 
 SqrtExp::~SqrtExp() {}
 
-NotExp::NotExp(Exp* expComp, bool isNot) : expComp(e), isNot(isNot) {}
-~NotExp::NotExp() {}
+NotExp::NotExp(Exp* expComp, bool isNot) : expComp(expComp), isNot(isNot) {}
+NotExp::~NotExp() {}
+
+BoolExp::BoolExp(string boolValue) : boolValue(boolValue) {}
+BoolExp::~BoolExp() {}
 
 //
 Programa::Programa() {}
@@ -92,10 +98,11 @@ WhileStmt::WhileStmt(Exp* e){
 WhileStmt::~WhileStmt(){
 }
 
-ForStmt::ForStmt(string id, Exp* i, Exp* f){
+ForStmt::ForStmt(string id, Exp* i, Exp* f, Body* b){
     iterador = id;
     inicio = i;
     fin = f;
+    cuerpodelfor = b;
 }
 
 ForStmt::~ForStmt(){

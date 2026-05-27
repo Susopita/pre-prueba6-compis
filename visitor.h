@@ -32,6 +32,7 @@ public:
     virtual void visit(Fundec* fd) = 0;
     virtual int visit(FcallExp* exp) = 0;
     virtual void visit(Programa* program) = 0;
+    virtual int visit(BoolExp* exp) = 0;
 };
 
 class PrintVisitor : public Visitor {
@@ -58,6 +59,7 @@ public:
     int visit(FcallExp* exp) ;
     void visit(Body* b) ;   
     void imprimir(Programa* program);
+    int visit(BoolExp* exp) override;
 };
 
 class EVALVisitor : public Visitor {
@@ -87,6 +89,7 @@ public:
     int visit(FcallExp* exp) ;
     void visit(Body* b) ;  
     void interprete(Programa* program);
+    int visit(BoolExp* exp) override;
 };
 
 

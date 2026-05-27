@@ -29,8 +29,8 @@ int SqrtExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
 
-bool NotExp::accept(Visitor* visitor) {
-    return visitor->visit(this) != 0;
+int NotExp::accept(Visitor* visitor) {
+    return visitor->visit(this);
 }
 
 void PrintStmt::accept(Visitor* visitor) {
@@ -90,6 +90,10 @@ void Programa::accept(Visitor* visitor) {
     visitor->visit(this);
 }
 
+int BoolExp::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
 ///////////////////////////////////////////////////////////////////////////////////
 
 int PrintVisitor::visit(BinaryExp* exp) {
@@ -112,9 +116,13 @@ int PrintVisitor::visit(SqrtExp* exp) {
 }
 
 int PrintVisitor::visit(NotExp* exp) {
-    cout << "not(";
+    if (exp->isNot){
+        
+ cout << "not(";
     exp->expComp->accept(this);
     cout << ")";
+    }else {
+    exp->expComp->accept(this);}
     return 0;
 }
 
@@ -155,23 +163,14 @@ int EVALVisitor::visit(BinaryExp* exp) {
         case POW_OP:
             result = pow(v1,v2);
             break;
-        case LT_OP:
-            result = v1 < v2;
-            break;
-        case LE_OP:
-            result = v1 <= v2;
-            break;
         case GT_OP:
             result = v1 > v2;
             break;
-        case GE_OP:
+        case GTE_OP:
             result = v1 >= v2;
             break;
-        case EQ_OP:
+        case EQUAL_OP:
             result = v1 == v2;
-            break;
-        case NE_OP:
-            result = v1 != v2;
             break;
         case AND_OP:
             result = (v1 != 0 && v2 != 0);
@@ -195,7 +194,7 @@ int EVALVisitor::visit(SqrtExp* exp) {
 }
 
 int EVALVisitor::visit(NotExp* exp) {
-    return exp->expComp->accept(this) == 0;
+    return exp->expComp->accept(this) == !exp->isNot;
 }
 
 
@@ -235,7 +234,15 @@ void EVALVisitor::visit(PrintStmt *stm) {
     cout << endl;
 }
 
+int EVALVisitor::visit(BoolExp* exp) {
+    return exp->boolValue == "true";   
+}
 
+int PrintVisitor::visit(BoolExp* exp) {
+    cout << exp->boolValue;
+    cout << endl;
+    return 0;
+}
 
 void PrintVisitor::visit(AsignStmt *stm) {
     cout << stm->variable << " = ";
@@ -308,7 +315,11 @@ void PrintVisitor::visit(ForStmt* stm){
     cout << " to ";
     stm->fin->accept(this);
     cout << " do " << endl;
-    for(auto i:stm->cuerpodelfor){
+    for(auto i:stm->cuerpodelfor->vdlist){
+        cout << "    ";
+        i->accept(this);
+    }
+    for(auto i:stm->cuerpodelfor->slist){
         cout << "    ";
         i->accept(this);
     }
@@ -333,7 +344,14 @@ void EVALVisitor::visit(ForStmt* stm){
     memoria.add_var(stm->iterador, start);
     for(int i = start; i <= end; ++i){
         memoria.update(stm->iterador, i);
-        for(auto j:stm->cuerpodelfor){
+        for(auto j:stm->cuerpodelfor->vdlist){
+            j->accept(this);
+            if(breakSignal){
+                breakSignal = false;
+                return;
+            }
+        }
+        for(auto j:stm->cuerpodelfor->slist){
             j->accept(this);
             if(breakSignal){
                 breakSignal = false;

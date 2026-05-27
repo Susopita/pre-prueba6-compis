@@ -159,7 +159,7 @@ Stmt *Parser::parsestmt() {
         e = parseCEXP();
         WhileStmt* roberto = new WhileStmt(e);
         match(Token::DO);
-        roberto->cuerpodelwhile.push_back(parseBody());
+        roberto->cuerpodelwhile = parseBody();
         match(Token::ENDWHILE);
         return roberto;
     }
@@ -171,16 +171,12 @@ Stmt *Parser::parsestmt() {
         Exp* inicio = parseCEXP();
         match(Token::TO);
         Exp* fin = parseCEXP();
-        ForStmt* roberto = new ForStmt(id, inicio, fin);
         match(Token::DO);
-        roberto->cuerpodelfor.push_back(parsestmt());
-        while(match(Token::SEMICOL)){
-            roberto->cuerpodelfor.push_back(parsestmt());
-        }
+        Body* body = parseBody();
         match(Token::ENDFOR);
+        ForStmt* roberto = new ForStmt(id, inicio, fin, body);
         return roberto;
     }
-
     else if (match(Token::ID)) {
         if (match(Token::INCREMENT)){
             return new IncrementStmt(previous->text);
@@ -197,20 +193,11 @@ Stmt *Parser::parsestmt() {
         e = parseCEXP();
         return new AsignStmt(texto,e);
     }
-    else if (match(Token::FOR)){
-        match(Token::ID);
-        string variable = previous->text;
-        match(Token::ASSIGN);
-        Exp* inicio = parseCEXP();
-        match(Token::TO);
-        Exp* fin = parseCEXP();
-        match(Token::DO);
-        Body* cuerpo = parseBody();
-        match(Token::ENDFOR);
-        return new ForStmt(variable, inicio, fin, cuerpo);
-    }
     else if (match(Token::BREAK)){
         return new BreakStmt();
+    }
+    else {
+        throw runtime_error("error sintactico");
     }
 }
 
@@ -244,13 +231,13 @@ Exp* Parser::parseBFactor(){
 Exp* Parser::parseCompExp(){
     Exp* l = parsePlusMinusExp();
     if (match(Token::GT)) {
-        return new BinaryExp(l, parsePlusMinusExp(), GT_OP)
+        return new BinaryExp(l, parsePlusMinusExp(), GT_OP);
     }
     else if (match(Token::GTE)) {
-        return new BinaryExp(l, parsePlusMinusExp(), GTE_OP)
+        return new BinaryExp(l, parsePlusMinusExp(), GTE_OP);
     }
     else if (match(Token::EQUAL)) {    
-       return new BinaryExp(l, parsePlusMinusExp(), EQUAL_OP)
+       return new BinaryExp(l, parsePlusMinusExp(), EQUAL_OP);
     }
     return l;
 }
