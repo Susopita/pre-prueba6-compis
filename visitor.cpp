@@ -20,6 +20,11 @@ int IdExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
 
+int ArrayAccessExp::accept(Visitor* visitor) {
+    return visitor->visit(this);
+}
+
+
 int SqrtExp::accept(Visitor* visitor) {
     return visitor->visit(this);
 }
@@ -32,6 +37,11 @@ void AsignStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
 
+void ArrayAssignStmt::accept(Visitor* visitor) {
+    visitor->visit(this);
+}
+
+
 
 void IfStmt::accept(Visitor* visitor) {
     visitor->visit(this);
@@ -40,6 +50,11 @@ void IfStmt::accept(Visitor* visitor) {
 void WhileStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
+
+void ForStmt::accept(Visitor* visitor) {
+    visitor->visit(this);
+}
+
 
 
 void VarDec::accept(Visitor* visitor) {
@@ -159,6 +174,18 @@ int EVALVisitor::visit(IdExp *e) {
     return memoria.lookup(e->value);
 }
 
+int EVALVisitor::visit(ArrayAccessExp *exp) {
+    int i = exp->index->accept(this);
+    return memoria.get_array_element(exp->id, i);
+}
+
+void EVALVisitor::visit(ArrayAssignStmt *stm) {
+    int i = stm->index->accept(this);
+    int val = stm->value->accept(this);
+    memoria.set_array_element(stm->id, i, val);
+}
+
+
 
 void EVALVisitor::visit(PrintStmt *stm) {
     cout << stm->exp->accept(this);
@@ -184,6 +211,22 @@ int PrintVisitor::visit(IdExp *e) {
     cout << e->value;
     return 0;
 }
+
+int PrintVisitor::visit(ArrayAccessExp *exp) {
+    cout << exp->id << "[";
+    exp->index->accept(this);
+    cout << "]";
+    return 0;
+}
+
+void PrintVisitor::visit(ArrayAssignStmt *stm) {
+    cout << stm->id << "[";
+    stm->index->accept(this);
+    cout << "] = ";
+    stm->value->accept(this);
+    cout << endl;
+}
+
 
 void PrintVisitor::visit(IfStmt* stm){
     cout << "if ";
@@ -217,10 +260,35 @@ cout << "while ";
     cout << "endwhile" << endl;
 }
 
+void PrintVisitor::visit(ForStmt* stm){
+    cout << "for " << stm->iterador << " = ";
+    stm->inicio->accept(this);
+    cout << " to ";
+    stm->fin->accept(this);
+    cout << " do " << endl;
+    for(auto i:stm->cuerpodelfor){
+        cout << "    ";
+        i->accept(this);
+    }
+    cout << "endfor" << endl;
+}
+
 void EVALVisitor::visit(WhileStmt* stm){
     while(stm->condicion->accept(this)!=0){
         for(auto i:stm->cuerpodelwhile){
              i->accept(this);
+        }
+    }
+}
+
+void EVALVisitor::visit(ForStmt* stm){
+    int start = stm->inicio->accept(this);
+    int end = stm->fin->accept(this);
+    memoria.add_var(stm->iterador, start);
+    for(int i = start; i <= end; ++i){
+        memoria.update(stm->iterador, i);
+        for(auto j:stm->cuerpodelfor){
+            j->accept(this);
         }
     }
 }

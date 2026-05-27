@@ -17,6 +17,8 @@ public:
         POW,     // **
         LPAREN,  // (
         RPAREN,  // )
+        LBRACKET,// [
+        RBRACKET,// ]
         PRINT,
         COMA,
         FUN,
@@ -30,6 +32,9 @@ public:
         WHILE,
         DO,
         ENDWHILE,
+        FOR,
+        TO,
+        ENDFOR,
         THEN,
         ENDIF,
         ASSIGN,
