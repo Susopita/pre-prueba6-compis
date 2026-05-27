@@ -71,9 +71,6 @@ Token* Scanner::nextToken() {
         if (lexema=="to") return new Token(Token::TO, input, first, current - first);
         if (lexema=="endfor") return new Token(Token::ENDFOR, input, first, current - first);
         if (lexema=="var") return new Token(Token::VAR, input, first, current - first);
-        if (lexema=="and") return new Token(Token::AND, input, first, current - first);
-        if (lexema=="or") return new Token(Token::OR, input, first, current - first);
-        if (lexema=="not") return new Token(Token::NOT, input, first, current - first);
         if (lexema=="break") return new Token(Token::BREAK, input, first, current - first);
         else return new Token(Token::ID, input, first, current - first);
     }

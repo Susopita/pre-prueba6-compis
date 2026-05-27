@@ -17,7 +17,9 @@ enum BinaryOp {
     MINUS_OP, 
     MUL_OP, 
     DIV_OP,
-    POW_OP
+    POW_OP,
+    AND_OP,
+    OR_OP
 };
 
 // Clase abstracta Exp
@@ -80,7 +82,7 @@ public:
 class NotExp : public Exp {
 public:
     Exp* expComp;
-    bool accept(Visitor* visitor);
+    int accept(Visitor* visitor);
     NotExp(Exp* expComp);
     ~NotExp();
 };

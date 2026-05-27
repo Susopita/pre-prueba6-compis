@@ -13,6 +13,8 @@ string Exp::binopToChar(BinaryOp op) {
         case MUL_OP:   return "*";
         case DIV_OP:   return "/";
         case POW_OP:   return "**";
+        case AND_OP:   return "and";
+        case OR_OP:    return "or";
         default:       return "?";
     }
 }
@@ -40,8 +42,9 @@ SqrtExp::SqrtExp(Exp* v) : value(v) {}
 
 SqrtExp::~SqrtExp() {}
 
-NotExp::NotExp(Exp* e) : exp(e) {}
-~NotExp::NotExp() {}
+// ------------------ NotExp ------------------
+NotExp::NotExp(Exp* e) : expComp(e) {}
+NotExp::~NotExp() { delete expComp; }
 
 //
 Programa::Programa() {}
