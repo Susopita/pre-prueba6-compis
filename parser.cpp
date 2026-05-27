@@ -137,7 +137,7 @@ Stmt *Parser::parsestmt() {
         match(Token::RPAREN);
         return new PrintStmt(e);
     }
-    if (match(Token::RETURN)) {
+    else if (match(Token::RETURN)) {
         ReturnStm* retorno = new ReturnStm();
         retorno -> exp =  parseCEXP();
         return retorno;
@@ -172,6 +172,18 @@ Stmt *Parser::parsestmt() {
         match(Token::ASSIGN);
         e = parseCEXP();
         return new AsignStmt(texto,e);
+    }
+    else if (match(Token::FOR)){
+        match(Token::ID);
+        string variable = previous->text;
+        match(Token::ASSIGN);
+        Exp* inicio = parseCEXP();
+        match(Token::TO);
+        Exp* fin = parseCEXP();
+        match(Token::DO);
+        Body* cuerpo = parseBody();
+        match(Token::ENDFOR);
+        return new ForStmt(variable, inicio, fin, cuerpo);
     }
 }
 

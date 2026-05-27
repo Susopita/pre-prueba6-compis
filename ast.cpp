@@ -40,6 +40,9 @@ SqrtExp::SqrtExp(Exp* v) : value(v) {}
 
 SqrtExp::~SqrtExp() {}
 
+NotExp::NotExp(Exp* e) : exp(e) {}
+~NotExp::NotExp() {}
+
 //
 Programa::Programa() {}
 Programa::~Programa(){}
@@ -96,6 +99,12 @@ AsignStmt::AsignStmt(string texto, Exp * e) {
 AsignStmt::~AsignStmt() {
 
 }
+
+BreakStmt::BreakStmt() {}
+BreakStmt::~BreakStmt() {}
+
+IncrementStmt::IncrementStmt(string variable) : variable(variable){}
+IncrementStmt::~IncrementStmt() {}
 
 // ------------------ NumberExp ------------------
 IdExp::IdExp(string v) : value(v) {}

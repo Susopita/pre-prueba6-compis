@@ -65,8 +65,15 @@ public:
     int accept(Visitor* visitor);
     SqrtExp(Exp* v);
     ~SqrtExp();
-}
-;
+};
+
+class NotExp : public Exp {
+public:
+    Exp* expComp;
+    bool accept(Visitor* visitor);
+    NotExp(Exp* expComp);
+    ~NotExp();
+};
 
 class Stmt{
 public:
@@ -89,7 +96,7 @@ public:
 class WhileStmt: public Stmt{
 public:
     Exp* condicion;
-    list<Stmt*> cuerpodelwhile;
+    Body* cuerpodelwhile;
     void accept(Visitor* visitor) override;
     WhileStmt(Exp* e);
     ~WhileStmt();
@@ -111,6 +118,21 @@ public:
     void accept(Visitor* visitor) override;
     PrintStmt(Exp* e);
     ~PrintStmt();
+};
+
+class BreakStmt : public Stmt {
+public:
+    void accept(Visitor* visitor) override;
+    BreakStmt();
+    ~BreakStmt();
+};
+
+class IncrementStmt : public Stmt {
+public:
+    string variable;
+    void accept(Visitor* visitor) override;
+    IncrementStmt(string variable);
+    ~IncrementStmt();
 };
 
 class VarDec{
@@ -157,6 +179,18 @@ public:
     void accept(Visitor* visitor);
     Fundec();
     ~Fundec();
+};
+
+class ForStamt : public Stmt {
+public:
+    string variable;
+    Exp* inicio;
+    Exp* fin;
+    Body* cuerpo;
+
+    void accept(Visitor* visitor);
+    ForStmt();
+    ~ForStmt();
 };
 
 class Programa{

@@ -17,22 +17,28 @@ public:
         POW,     // **
         LPAREN,  // (
         RPAREN,  // )
+        GET,     // <=
+        GT,      // <
+        EQUAL,   // ==
+        NUM,     // number
         PRINT,
-        COMA,
+        COMA,    // ,
         FUN,
         ENDFUN,
         RETURN,
-        DOSPUNTOS,
-        SEMICOL,
+        DOSPUNTOS,// :
+        TRUE,
+        FALSE,
+        SEMICOL, // ;
         IF,
-        VAR,
+        VAR,     // Var
         ELSE,
         WHILE,
         DO,
         ENDWHILE,
         THEN,
         ENDIF,
-        ASSIGN,
+        ASSIGN,  // =
         SQRT,    // sqrt
         NUM,     // Número
         ERR,     // Error
