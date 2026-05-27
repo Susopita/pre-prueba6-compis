@@ -40,11 +40,16 @@ ostream& operator<<(ostream& outs, const Token& tok) {
         case Token::PRINT:    outs << "TOKEN(PRINT, \""    << tok.text << "\")"; break;
         case Token::ASSIGN:    outs << "TOKEN(ASSIGN, \""    << tok.text << "\")"; break;
         case Token::IF:    outs << "TOKEN(IF, \""    << tok.text << "\")"; break;
+        case Token::BREAK:    outs << "TOKEN(BREAK, \""    << tok.text << "\")"; break;
         case Token::ENDIF:    outs << "TOKEN(ENDIF, \""    << tok.text << "\")"; break;
         case Token::ELSE:    outs << "TOKEN(ELSE, \""    << tok.text << "\")"; break;
         case Token::THEN:    outs << "TOKEN(THEN, \""    << tok.text << "\")"; break;
         case Token::WHILE:    outs << "TOKEN(WHILE, \""    << tok.text << "\")"; break;
         case Token::DO:    outs << "TOKEN(DO, \""    << tok.text << "\")"; break;
+        case Token::INCREMENT:    outs << "TOKEN(INCREMENT, \""    << tok.text << "\")"; break;
+        case Token::AND:    outs << "TOKEN(AND, \""    << tok.text << "\")"; break;
+        case Token::OR:    outs << "TOKEN(OR, \""    << tok.text << "\")"; break;
+        case Token::NOT:    outs << "TOKEN(NOT, \""    << tok.text << "\")"; break;
         case Token::VAR:    outs << "TOKEN(VAR, \""    << tok.text << "\")"; break;
         case Token::COMA:    outs << "TOKEN(COMA, \""    << tok.text << "\")"; break;
         case Token::ENDWHILE:    outs << "TOKEN(ENDWHILE, \""    << tok.text << "\")"; break;

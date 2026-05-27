@@ -45,8 +45,6 @@ void ArrayAssignStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
 
-
-
 void IfStmt::accept(Visitor* visitor) {
     visitor->visit(this);
 }
