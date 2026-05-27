@@ -58,6 +58,16 @@ public:
     ~IdExp();
 };
 
+class ArrayAccessExp : public Exp {
+public:
+    string id;
+    Exp* index;
+    int accept(Visitor* visitor);
+    ArrayAccessExp(string id, Exp* index);
+    ~ArrayAccessExp();
+};
+
+
 // Raiz cuadrada
 class SqrtExp : public Exp {
 public:
@@ -102,6 +112,17 @@ public:
     ~WhileStmt();
 };
 
+class ForStmt: public Stmt{
+public:
+    string iterador;
+    Exp* inicio;
+    Exp* fin;
+    list<Stmt*> cuerpodelfor;
+    void accept(Visitor* visitor) override;
+    ForStmt(string id, Exp* i, Exp* f);
+    ~ForStmt();
+};
+
 
 class AsignStmt : public Stmt {
 public:
@@ -110,6 +131,16 @@ public:
     void accept(Visitor* visitor) override;
     AsignStmt(string, Exp*);
     ~AsignStmt();
+};
+
+class ArrayAssignStmt : public Stmt {
+public:
+    string id;
+    Exp* index;
+    Exp* value;
+    void accept(Visitor* visitor) override;
+    ArrayAssignStmt(string id, Exp* index, Exp* value);
+    ~ArrayAssignStmt();
 };
 
 class PrintStmt : public Stmt {

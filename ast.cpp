@@ -90,6 +90,15 @@ WhileStmt::WhileStmt(Exp* e){
 WhileStmt::~WhileStmt(){
 }
 
+ForStmt::ForStmt(string id, Exp* i, Exp* f){
+    iterador = id;
+    inicio = i;
+    fin = f;
+}
+
+ForStmt::~ForStmt(){
+}
+
 
 AsignStmt::AsignStmt(string texto, Exp * e) {
     variable=  texto;
@@ -110,3 +119,12 @@ IncrementStmt::~IncrementStmt() {}
 IdExp::IdExp(string v) : value(v) {}
 
 IdExp::~IdExp() {}
+
+ArrayAccessExp::ArrayAccessExp(string v, Exp* i) : id(v), index(i) {}
+
+ArrayAccessExp::~ArrayAccessExp() { delete index; }
+
+ArrayAssignStmt::ArrayAssignStmt(string v, Exp* idx, Exp* val) : id(v), index(idx), value(val) {}
+
+ArrayAssignStmt::~ArrayAssignStmt() { delete index; delete value; }
+

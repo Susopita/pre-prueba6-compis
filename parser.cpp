@@ -167,8 +167,32 @@ Stmt *Parser::parsestmt() {
         return roberto;
     }
 
+    else if (match(Token::FOR)) {
+        match(Token::ID);
+        string id = previous->text;
+        match(Token::ASSIGN);
+        Exp* inicio = parseCEXP();
+        match(Token::TO);
+        Exp* fin = parseCEXP();
+        ForStmt* roberto = new ForStmt(id, inicio, fin);
+        match(Token::DO);
+        roberto->cuerpodelfor.push_back(parsestmt());
+        while(match(Token::SEMICOL)){
+            roberto->cuerpodelfor.push_back(parsestmt());
+        }
+        match(Token::ENDFOR);
+        return roberto;
+    }
+
     else if (match(Token::ID)) {
         string texto = previous->text;
+        if (match(Token::LBRACKET)) {
+            Exp* index = parseCEXP();
+            match(Token::RBRACKET);
+            match(Token::ASSIGN);
+            e = parseCEXP();
+            return new ArrayAssignStmt(texto, index, e);
+        }
         match(Token::ASSIGN);
         e = parseCEXP();
         return new AsignStmt(texto,e);
@@ -248,6 +272,11 @@ Exp* Parser::parseF() {
             }
             match(Token::RPAREN);
             return fcall;
+        }
+        else if(match(Token::LBRACKET)){
+            Exp* index = parseCEXP();
+            match(Token::RBRACKET);
+            return new ArrayAccessExp(texto, index);
         }
         else{
             return new IdExp(texto);

@@ -94,6 +94,23 @@ public:
         v = ribs[idx].at(x);
         return true;
     }
+
+    unordered_map<string, vector<int>> arreglos;
+
+    void set_array_element(const string& name, int index, int value) {
+        if (index >= arreglos[name].size()) {
+            arreglos[name].resize(index + 1, 0);
+        }
+        arreglos[name][index] = value;
+    }
+
+    int get_array_element(const string& name, int index) {
+        if (arreglos.find(name) == arreglos.end() || index >= arreglos[name].size()) {
+            return 0;
+        }
+        return arreglos[name][index];
+    }
 };
+
 
 #endif // ENVIRONMENT_H

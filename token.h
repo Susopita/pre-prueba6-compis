@@ -21,6 +21,8 @@ public:
         GT,      // <
         EQUAL,   // ==
         NUM,     // number
+        LBRACKET,// [
+        RBRACKET,// ]
         PRINT,
         COMA,    // ,
         FUN,
@@ -36,6 +38,9 @@ public:
         WHILE,
         DO,
         ENDWHILE,
+        FOR,
+        TO,
+        ENDFOR,
         THEN,
         ENDIF,
         ASSIGN,  // =
