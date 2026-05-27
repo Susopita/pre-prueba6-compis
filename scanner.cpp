@@ -72,6 +72,9 @@ Token* Scanner::nextToken() {
         if (lexema=="endfor") return new Token(Token::ENDFOR, input, first, current - first);
         if (lexema=="var") return new Token(Token::VAR, input, first, current - first);
         if (lexema=="break") return new Token(Token::BREAK, input, first, current - first);
+        if (lexema=="and") return new Token(Token::AND, input, first, current - first);
+        if (lexema=="or") return new Token(Token::OR, input, first, current - first);
+        if (lexema=="not") return new Token(Token::NOT, input, first, current - first);
         else return new Token(Token::ID, input, first, current - first);
     }
     // Operadores
@@ -97,7 +100,7 @@ Token* Scanner::nextToken() {
             if (input[current+1]=='=')
             {
                 current++;
-                token = new Token(Token::GET, input, first, current + 1 - first);
+                token = new Token(Token::GTE, input, first, current + 1 - first);
             }
             else{
                 token = new Token(Token::GT, c);

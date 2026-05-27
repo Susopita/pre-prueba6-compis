@@ -17,7 +17,7 @@ public:
         POW,     // **
         LPAREN,  // (
         RPAREN,  // )
-        GET,     // <=
+        GTE,     // <=
         GT,      // <
         EQUAL,   // ==
         LBRACKET,// [

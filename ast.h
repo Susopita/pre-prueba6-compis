@@ -19,7 +19,10 @@ enum BinaryOp {
     DIV_OP,
     POW_OP,
     AND_OP,
-    OR_OP
+    OR_OP,
+    GTE_OP,
+    GT_OP,
+    EQUAL_OP
 };
 
 // Clase abstracta Exp
