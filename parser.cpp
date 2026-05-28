@@ -178,10 +178,10 @@ Stmt *Parser::parsestmt() {
         return roberto;
     }
     else if (match(Token::ID)) {
-        if (match(Token::INCREMENT)){
-            return new IncrementStmt(previous->text);
-        }
         string texto = previous->text;
+        if (match(Token::INCREMENT)){
+            return new IncrementStmt(texto);
+        }
         if (match(Token::LBRACKET)) {
             Exp* index = parseCEXP();
             match(Token::RBRACKET);
@@ -218,14 +218,12 @@ Exp* Parser::parseCEXP(){
 }
 
 Exp* Parser::parseBFactor(){
-    bool isNot;
     if (match(Token::NOT)) {
-        isNot = true;
+        return new NotExp(parseCompExp(), true);
     }
     else {
-        isNot = false;
+        return parseCompExp();
     }
-    return new NotExp(parseCompExp(), isNot);
 }
 
 Exp* Parser::parseCompExp(){
@@ -314,7 +312,7 @@ Exp* Parser::parseF() {
         }
     }
     else if (match(Token::TRUE) || match(Token::FALSE)) {
-        return new BoolExp(current->text);
+        return new BoolExp(previous->text);
     }
     else if (match(Token::LPAREN))
     {

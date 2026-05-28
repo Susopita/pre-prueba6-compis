@@ -164,10 +164,10 @@ int EVALVisitor::visit(BinaryExp* exp) {
             result = pow(v1,v2);
             break;
         case GT_OP:
-            result = v1 > v2;
+            result = v1 < v2;
             break;
         case GTE_OP:
-            result = v1 >= v2;
+            result = v1 <= v2;
             break;
         case EQUAL_OP:
             result = v1 == v2;
@@ -240,7 +240,6 @@ int EVALVisitor::visit(BoolExp* exp) {
 
 int PrintVisitor::visit(BoolExp* exp) {
     cout << exp->boolValue;
-    cout << endl;
     return 0;
 }
 
@@ -400,7 +399,7 @@ void EVALVisitor::visit(Body *p) {
     }
     for (auto i:p->slist) {
         i->accept(this);
-        if(breakSignal){
+        if(breakSignal || returnSignal){
             break;
         }
     }
@@ -476,7 +475,9 @@ int EVALVisitor::visit(FcallExp *exp){
     for(int i=0;i<f->id_parametros.size();i++){
         memoria.add_var(f->id_parametros[i],exp->argumentos[i]->accept(this));
     }
+    returnSignal = false;
     f->cuerpo->accept(this);
+    returnSignal = false;
     memoria.remove_level();
     return retornito;
 }
@@ -484,4 +485,5 @@ int EVALVisitor::visit(FcallExp *exp){
 
 void EVALVisitor::visit(ReturnStm *stm){
     retornito = stm->exp->accept(this);
+    returnSignal = true;
 }

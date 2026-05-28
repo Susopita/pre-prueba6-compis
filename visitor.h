@@ -67,6 +67,7 @@ public:
     Environment<int> memoria;
     int retornito;
     bool breakSignal = false;
+    bool returnSignal = false;
     unordered_map<string,Fundec*> fmemoria;
     int visit(BinaryExp* exp) override;
     int visit(NumberExp* exp) override;
